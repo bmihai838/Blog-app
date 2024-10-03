@@ -8,8 +8,6 @@ test('dummy returns one', () => {
     assert.strictEqual(result, 1)
 })
 
-
-
 describe('total likes', () => {
     test('of empty list is zero', () => {
       assert.strictEqual(list_helper.totalLikes([]), 0)
