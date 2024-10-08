@@ -1,20 +1,21 @@
 const app = require('./app')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
+const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 require('dotenv').config()
 
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(config.MONGODB_URI)
+    logger.info('connected to MongoBD')
+  } catch (error) {
+    logger.error('error connecting to MongoDB', error.message)
+  }
+}
 
-const Blog = mongoose.model('Blog', blogSchema)
-
-
-
+connectToDatabase()
 
 app.get('/api/blogs', (request, response) => {
   Blog
