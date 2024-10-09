@@ -1,0 +1,23 @@
+.success, .error {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .blogStyle {
+    padding-top: 13px;
+    padding-left: 2px;
+    border: 3px solid black;
+    border-width: 2px;
+    margin-bottom: 5px;
+  }
