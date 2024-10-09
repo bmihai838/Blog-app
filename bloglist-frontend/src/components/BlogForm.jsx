@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 
 const BlogForm = ({ createBlog }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
+    const titleId = useId()
+    const authorId = useId()
+    const urlId = useId()
 
     const handleSubmit = (event) => { 
         event.preventDefault()
@@ -17,24 +20,27 @@ const BlogForm = ({ createBlog }) => {
     return(
         <form onSubmit={handleSubmit}>
             <div>
-                title:
+                <label htmlFor={titleId}>Title:</label>
                 <input
+                    id={titleId}
                     type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}    
                 />
             </div>
             <div>
-                author:
+                <label htmlFor={authorId}>Author:</label>
                 <input
+                    id={authorId}
                     type='text'
                     value={author}
                     onChange={e => setAuthor(e.target.value)}
                 />
             </div>
             <div>
-                url:
+                <label htmlFor={urlId}>Url:</label>
                 <input
+                    id={urlId}
                     type="text"
                     value={url}
                     onChange={e => setUrl(e.target.value)}
