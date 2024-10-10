@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import './index.css';
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -14,6 +14,9 @@ const App = () => {
 
   const [blogs, setBlogs] = useState([])
   const [notification, setNotification] = useState(null)
+
+  const usernameId = useId()
+  const passwordId = useId()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -101,8 +104,9 @@ const App = () => {
         <Notification message={notification?.message} type={notification?.type}/>
         <form onSubmit={handleLogin}>
           <div>
-            username
+            <label htmlFor={usernameId}>Username:</label>
             <input 
+              id={usernameId}
               type="text"
               value={username}
               name='Username'
@@ -110,8 +114,9 @@ const App = () => {
             />
           </div>
           <div>
-            password
+            <label htmlFor={passwordId}>Password:</label>
             <input 
+             id={passwordId}
              type="password"
              value={password}
              name="Password"
@@ -127,7 +132,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
       <Notification message={notification?.message} type={notification?.type}/>
-      <p>{user.name} logged-in</p>
+      <p>{user.name} logged in</p>
       <button onClick={handleLogout}>Logout</button>
       <h2>Create new blog</h2>
       <Togglable buttonLabel="Create new Blog" ref={blogFormRef}>

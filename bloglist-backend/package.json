@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:test": "set NODE_ENV=test && node index.js",
     "test": "cross-env NODE_ENV=test node --test tests/blog_api.test.js tests/user_api.test.js tests/list_helper.test.js",
     "dev": "nodemon index.js"
   },

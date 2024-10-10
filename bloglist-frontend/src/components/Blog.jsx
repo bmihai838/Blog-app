@@ -11,7 +11,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
   return (
     <div className="blogStyle">
       <div>
-        {blog.title} {blog.author}
+        {blog.title} by {blog.author}
         <button onClick={toggleDetails}>
           {detailsVisible ? 'hide' : 'view'}
         </button>

@@ -7,7 +7,9 @@ const logger = require('./utils/logger')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const testingRouter = require('./controllers/testing')
 const middleware = require('./utils/middleware')
+
 
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
@@ -17,11 +19,17 @@ mongoose.connect(config.MONGODB_URI)
     logger.error('Error connecting to MongoDB', error.message)
   })
 
+
+
 app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
-app.use('/api/login', loginRouter)
 
+if (process.env.NODE_ENV === 'test') {
+  app.use('/api/testing', testingRouter)
+}
+
+app.use('/api/login', loginRouter)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 
