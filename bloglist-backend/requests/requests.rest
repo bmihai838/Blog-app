@@ -11,3 +11,6 @@ Content-Type: application/json
     "url": "https://sigmablog.com",
     "likes": 7
 }
+
+### Reset the database
+POST http://localhost:3003/api/testing/reset

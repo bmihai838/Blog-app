@@ -10,7 +10,15 @@ blogsRouter.get('/', async(request, response) => {
 blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
 
-    const user = await User.findOne({})
+    let user = await User.findOne({})
+    if (!user) {
+        user = new User({
+            username: 'defaultUser',
+            name: 'Default User',
+            passwordHash: 'hashedPassword'
+        })
+        await user.save()
+    }
 
     if(!body.title || !body.url) {
         return response.status(400).json({ error: 'title or url missing' })

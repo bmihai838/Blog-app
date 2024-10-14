@@ -74,17 +74,20 @@ const App = () => {
   const createBlog = async (blogObject) => {
     try {
       const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
-      blogFormRef.current.toggleVisibility()
-      setNotification({ message:`A new blog ${returnedBlog.title} by ${returnedBlog.author} added`, type:'success'})
+      console.log('Blog created:', returnedBlog)
+      setBlogs((prevBlogs) => prevBlogs.concat(returnedBlog))
+      setNotification({
+        message: `A new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
+        type: 'success',
+      })
       setTimeout(() => setNotification(null), 5000)
     } catch (error) {
-      setNotification({ message:`Failed creating a new blog`, type:'error' })
+      console.error('Failed to create blog:', error)
+      setNotification({ message: 'Failed creating a new blog', type: 'error' })
       setTimeout(() => setNotification(null), 5000)
-      console.error('Failed to create blog', error.message)
     }
   }
-
+  
   const deleteBlog = async (id) => {
     const blogToDelete = blogs.find(blog => blog.id === id)
 
@@ -134,9 +137,9 @@ const App = () => {
       <Notification message={notification?.message} type={notification?.type}/>
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>Logout</button>
-      <h2>Create new blog</h2>
+      <h2>Create new blogs</h2>
       <Togglable buttonLabel="Create new Blog" ref={blogFormRef}>
-        <BlogForm createBlog={createBlog}/>
+      <BlogForm createBlog={createBlog} />
       </Togglable>
       {blogs
       .sort((a, b) => b.likes - a.likes)

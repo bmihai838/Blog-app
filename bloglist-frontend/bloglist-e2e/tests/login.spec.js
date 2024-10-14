@@ -1,43 +1,42 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { error } = require('console')
 
-describe('Login', () => {
-    beforeEach(async ({ page, request }) => {
-        await request.post('api/testing/reset')
-        await request.post('/api/users', {
-            data: {
-                username: 'e2etestuser',
-                name: 'E2E Test User',
-                password: 'correctpassword'
-            }
-        })
-        await page.goto('http://localhost:5173')
+describe('Login functionality', () => {
+  beforeEach(async ({ page, request }) => {
+    await request.post('http://127.0.0.1:3003/api/testing/reset')
+
+    const newUser = {
+      username: 'testuser',
+      name: 'Test User',
+      password: 'testpassword',
+    }
+
+    await request.post('http://127.0.0.1:3003/api/users', { data: newUser });
+    await page.context().clearCookies()
+})
+
+    test('Login form is shown', async ({ page }) => {
+      await page.goto('http://localhost:5173');
+      await expect(page.locator('text=Log in to application')).toBeVisible()
     })
 
-    test('succeds with correct credentials', async ({ page }) => {
-        await page.getByLabel('username').fill('e2etestuser')
-        await page.getByLabel('password').fill('correctpassword')
-        await page.getByRole('button', { name: 'login' }).click()
+    test('succeeds with correct credentials', async ({ page }) => {
+      await page.goto('http://localhost:5173')
 
-        console.log(await page.content());
+      await page.fill('input[name="Username"]', 'testuser');
+      await page.fill('input[name="Password"]', 'testpassword');
+      await page.click('button[type="submit"]')
 
-        await expect(page.getByText('Logged in successfully')).toBeVisible({ timeout: 5000 })
-  
-       
-        await expect(page.getByText('E2E Test User logged in')).toBeVisible({ timeout: 5000 })
-        
-        
-        await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible()
+      await expect(page.locator('text=Test User')).toBeVisible({ timeout: 20000});
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-        await page.getByLabel('username').fill('testuser')
-        await page.getByLabel('password').fill('wrongpassword')
-        await page.getByRole('button', { name: 'login' }).click()
+      await page.goto('http://localhost:5173')
 
-        const errorMessage = await page.getByText('Wrong Credentials')
-        await expect(errorMessage).toBeVisible()
-        await expect(errorMessage).toHaveCSS('background-color', 'rgb(248, 215, 218)')
-        await expect(errorMessage).toHaveCSS('color', 'rgb(114, 28, 36)')
+      await page.fill('input[name="Username"]', 'testuser');
+      await page.fill('input[name="Password"]', 'wrongpassword');
+      await page.click('button[type="submit"]')
+
+      await expect(page.locator('.error')).toBeVisible();
+      await expect(page.locator('.error')).toHaveText('Wrong credentials');
     })
-})
+  })

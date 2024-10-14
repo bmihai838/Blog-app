@@ -3,8 +3,9 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 router.post('/reset', async (request, response) => {
-    await Blog.deleteMany({})
-    await User.deleteMany({})
+    const blogResult = await Blog.deleteMany({})
+    const userResult = await User.deleteMany({})
+    console.log(`Deleted ${blogResult.deletedCount} blogs and ${userResult.deletedCount} users`)
 
     response.status(204).end()
 })

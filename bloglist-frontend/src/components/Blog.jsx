@@ -9,7 +9,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
   }
 
   return (
-    <div className="blogStyle">
+    <div className="blogStyle" data-testid={`blog-${blog.id}`}>
       <div>
         {blog.title} by {blog.author}
         <button onClick={toggleDetails}>
@@ -21,7 +21,9 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
           <div>{blog.url}</div>
           <div>
             likes {blog.likes}
-            <button onClick={() => updateLikes(blog)}>like</button>
+            <button 
+            name="Like"
+            onClick={() => updateLikes(blog)}>like</button>
           </div>
           <div>{blog.author}</div>
           <button onClick={() => deleteBlog(blog.id)}>Remove</button>

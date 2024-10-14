@@ -26,6 +26,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 if (process.env.NODE_ENV === 'test') {
+  console.log('Server running in test mode')
   app.use('/api/testing', testingRouter)
 }
 
